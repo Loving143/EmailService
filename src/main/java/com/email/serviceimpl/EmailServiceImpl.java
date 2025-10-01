@@ -25,35 +25,25 @@ public class EmailServiceImpl implements EmailService{
 	
 	@Value("${spring.mail.username")
 	private String fromEmailId;
+	
 	@Override
 	public void send(EmailRequest req) {
 		 try {
-	            // Load FreeMarker template
+			 
 	            Template template = freemarkerConfig.getTemplate("emailTemplate.ftl");
-
-	            // Process the template into a String
 	            String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(template, req.getModel());
-
-	            // Create a MIME message
 	            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 	            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-
-	            // Set email details
 	            helper.setFrom(fromEmailId);
 	            helper.setTo(req.getRecipient());
 	            helper.setSubject(req.getSubject());
 	            helper.setText(htmlBody, true); // `true` enables HTML content
-
-	            // Attach logo as an inline image
 	            ClassPathResource logoResource = new ClassPathResource("static/images/medicare.jpg");
 	            helper.addInline("logoImage", logoResource);
-	            // Send email
 	            javaMailSender.send(mimeMessage);
-
-	        } catch (Exception e) {
+		 } catch (Exception e) {
 	            throw new RuntimeException("Failed to send email: " + e.getMessage(), e);
 	        }
-		
 	}
 
 }
