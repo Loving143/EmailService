@@ -16,6 +16,18 @@ eureka:
     hostname: 192.168.18.163 // Server on which application is running IP address
     instance-id: "${spring.application.name}:${server.port}"
 
+resilience4j:
+  circuitbreaker:
+    instances:
+      otpService:
+        register-health-indicator: true
+        failure-rate-threshold: 50          # Open if 50% of requests fail
+        minimum-number-of-calls: 5          # Wait for at least 5 calls before evaluating
+        sliding-window-size: 10             # Look at last 10 requests
+        wait-duration-in-open-state: 30s    # Stay open for 30 seconds before retry
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+
 management:
   endpoints:
     web:

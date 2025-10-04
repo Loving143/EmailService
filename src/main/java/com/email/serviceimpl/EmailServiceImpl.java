@@ -13,6 +13,7 @@ import com.email.service.EmailService;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.mail.internet.MimeMessage;
 @Service
 public class EmailServiceImpl implements EmailService{
@@ -25,9 +26,9 @@ public class EmailServiceImpl implements EmailService{
 	
 	@Value("${spring.mail.username")
 	private String fromEmailId;
-	
+	 private static final String OTP_CB = "otpService";
 	@Override
-	public void send(EmailRequest req) {
+	public String send(EmailRequest req) {
 		 try {
 			 
 	            Template template = freemarkerConfig.getTemplate("emailTemplate.ftl");
@@ -41,6 +42,7 @@ public class EmailServiceImpl implements EmailService{
 	            ClassPathResource logoResource = new ClassPathResource("static/images/medicare.jpg");
 	            helper.addInline("logoImage", logoResource);
 	            javaMailSender.send(mimeMessage);
+	            return "Email sent successfully!!";
 		 } catch (Exception e) {
 	            throw new RuntimeException("Failed to send email: " + e.getMessage(), e);
 	        }
