@@ -7,10 +7,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-
 import com.email.request.EmailRequest;
 import com.email.service.EmailService;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
