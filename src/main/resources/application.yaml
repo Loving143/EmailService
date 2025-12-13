@@ -3,7 +3,7 @@ spring:
     name: email-service
 
 server:
-  port: ${PORT:8041}
+  port: ${PORT}
 
 eureka:
   client:
@@ -12,7 +12,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: false
     instance-id: "${spring.application.name}:${server.port}"
 
 resilience4j:
